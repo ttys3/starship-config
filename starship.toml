@@ -1,3 +1,6 @@
+# ttyS3's starship config with custom modules
+# repo https://github.com/ttys3/starship-config
+#
 # ~/.config/starship.toml
 # https://starship.rs/config/
 

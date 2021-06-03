@@ -70,7 +70,7 @@ disabled = false
 
 # show os icon, thanks https://www.nerdfonts.com/cheat-sheet
 #                 
-[custom.os_icon]
+[custom.os-icon]
 disabled = false
 command = "os-icon"
 style = "bold green"

@@ -1,0 +1,154 @@
+# ~/.config/starship.toml
+# https://starship.rs/config/
+
+# You can change default configuration file location with STARSHIP_CONFIG environment variable
+# for example:
+# export STARSHIP_CONFIG=~/.starship/config.toml
+
+# default logs ~/.cache/starship/session_${STARSHIP_SESSION_KEY}.log
+# make it custom:
+# export STARSHIP_CACHE=~/.starship/cache
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+# https://starship.rs/config/#default-prompt-format
+format = """
+$custom\
+$username\
+$hostname\
+$shlvl\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$docker_context\
+$package\
+$cmake\
+$deno\
+$golang\
+$helm\
+$nodejs\
+$php\
+$python\
+$rust\
+$memory_usage\
+$aws\
+$gcloud\
+$env_var\
+$lua\
+$jobs\
+$battery\
+$time\
+$cmd_duration\
+$line_break\
+$status\
+$shell\
+$character"""
+
+[directory]
+read_only = " "
+truncation_length = 8
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+
+[time]
+disabled = true
+use_12hr = false
+format = '🕙[\[ $time \]]($style) '
+time_format = "%T"
+utc_time_offset = "local"
+time_range = "09:00:00-19:10:00"
+
+[status]
+symbol = "🔴 "
+disabled = false
+
+# show os icon, thanks https://www.nerdfonts.com/cheat-sheet
+#                 
+[custom.os_icon]
+disabled = false
+command = "os-icon"
+style = "bold green"
+format = "[$symbol($output  )]($style)"
+symbol = ""
+when = "true"
+shell = ["bash", "--noprofile", "--norc"]
+
+# symbol presets
+# https://starship.rs/presets/#nerd-font-symbols
+[aws]
+symbol = "  "
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = " "
+
+# [directory]
+# read_only = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[package]
+symbol = " "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[python]
+symbol = " "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = "ﯣ "
+
+[lua]
+symbol = " "

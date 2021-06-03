@@ -4,39 +4,74 @@ package main
 // https://github.com/zcalusic/sysinfo/blob/master/os.go
 
 import (
+	"flag"
 	"fmt"
-	"log"
+	"runtime"
+	"sort"
+	"strings"
 
 	"github.com/go-ini/ini"
 )
 
 var iconMap = map[string]string{
-	"arch":     " ",
-	"ubuntu":   " ",
-	"fedora":   " ",
-	"centos":   " ",
-	"debian":   " ",
-	"gentoo":   " ",
-	"opensuse": " ",
-	"apple":    " ",
-	"windows":  " ",
-	"":         "err",
+	"arch":      " ",
+	"ubuntu":    " ",
+	"fedora":    " ",
+	"centos":    " ",
+	"debian":    " ",
+	"gentoo":    " ",
+	"opensuse":  " ",
+	"manjaro":   " ",
+	"linuxmint": " ",
+	"darwin":    " ",
+	"windows":   " ",
+	"freebsd":   " ",
+	"android":   " ",
+	"linux":     " ",
+
+	"": " ",
 }
+
+var listIcons bool
 
 func main() {
-	OSInfo := ReadOSRelease("/etc/os-release")
-	osID := OSInfo["ID"]
-	fmt.Print(iconMap[osID])
-}
+	flag.BoolVar(&listIcons, "list", false, "list available icons")
+	flag.Parse()
 
-func ReadOSRelease(configfile string) map[string]string {
-	cfg, err := ini.Load(configfile)
-	if err != nil {
-		log.Fatal("Fail to read file: ", err)
+	if listIcons {
+		osArr := make([]string, 0, len(iconMap))
+		for os := range iconMap {
+			if os == "" {
+				continue
+			}
+			osArr = append(osArr, os)
+		}
+		sort.Strings(osArr)
+
+		for _, os := range osArr {
+			fmt.Printf("%10s %s\n", os, iconMap[os])
+		}
+		return
 	}
 
-	osReleaseMap := make(map[string]string)
-	osReleaseMap["ID"] = cfg.Section("").Key("ID").String()
+	ID := GetOsReleaseID("/etc/os-release")
+	fmt.Print(iconMap[ID])
+}
 
-	return osReleaseMap
+func GetOsReleaseID(osReleaseFile string) string {
+	if runtime.GOOS == "windows" ||
+		runtime.GOOS == "darwin" ||
+		runtime.GOOS == "freebsd" ||
+		runtime.GOOS == "android" {
+		return runtime.GOOS
+	}
+
+	if runtime.GOOS == "linux" {
+		if cfg, err := ini.Load(osReleaseFile); err == nil {
+			return strings.ToLower(cfg.Section("").Key("ID").String())
+		}
+		return runtime.GOOS
+	} else {
+		return ""
+	}
 }

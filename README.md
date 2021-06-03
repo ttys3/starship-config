@@ -4,7 +4,11 @@ starship config with custom modules
 
 ## Installation
 
-1. setup starship
+0. Prerequisites
+
+A [Nerd Font](https://www.nerdfonts.com/) installed and enabled in your terminal (the example uses JetBrains Mono Nerd Font)
+
+1. Setup starship
 
 ```shell
 git clone https://github.com/ttys3/starship-config
@@ -20,7 +24,7 @@ sudo chmod a+x /usr/local/bin/os-icon
 
 ```
 
-2. config zsh to use starship prompt
+2. Config zsh to use starship prompt
 
 just add `eval "$(starship init zsh)"` to your `~/.zshrc` file
 

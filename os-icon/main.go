@@ -26,8 +26,8 @@ var iconMap = map[string]string{
 	"darwin":    " ",
 	"windows":   " ",
 	"freebsd":   " ",
-	"android":   " ",
-	"linux":     " ",
+	// "android":   " ",
+	"linux": " ",
 
 	"": " ",
 }

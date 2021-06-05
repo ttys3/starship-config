@@ -30,7 +30,6 @@ $git_state\
 $git_status\
 $docker_context\
 $package\
-$cmake\
 $deno\
 $golang\
 $helm\

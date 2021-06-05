@@ -71,6 +71,9 @@ time_range = "09:00:00-19:10:00"
 symbol = "🔴 "
 disabled = false
 
+[git_commit]
+tag_disabled = false
+
 # show os icon, thanks https://www.nerdfonts.com/cheat-sheet
 #                 
 [custom.os-icon]

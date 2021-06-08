@@ -73,6 +73,7 @@ disabled = false
 [git_commit]
 tag_disabled = false
 
+# https://github.com/starship/starship/discussions/1252#discussioncomment-822676
 # show os icon, thanks https://www.nerdfonts.com/cheat-sheet
 #                 
 [custom.os-icon]
@@ -83,6 +84,33 @@ format = "[$symbol($output  )]($style)"
 symbol = ""
 when = "true"
 shell = ["bash", "--noprofile", "--norc"]
+
+# https://github.com/starship/starship/discussions/1252#discussioncomment-838901
+[custom.git_remote_url]
+description = 'Remote git repository'
+when = 'git rev-parse --is-inside-work-tree'
+command = """
+GIT_REMOTE=$(command git ls-remote --get-url 2> /dev/null)
+GIT_REMOTE_URL=$(echo $GIT_REMOTE | sed -E 's/^https?:\\/\\/(.+@)?//; s/\\.git$//; s/.+@(.*):(.*)$/\\1\\/\\2/; s/\\/$//')
+if [[ "$GIT_REMOTE" =~ "github" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+elif [[ "$GIT_REMOTE" =~ "gitlab" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+elif [[ "$GIT_REMOTE" =~ "bitbucket" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+elif [[ -n "$GIT_REMOTE" ]]; then
+    GIT_REMOTE_SYMBOL=" "
+else
+    GIT_REMOTE_SYMBOL=" "
+fi
+echo "$GIT_REMOTE_SYMBOL$GIT_REMOTE_URL"
+"""
+# Default format is according to the segmented-brackets preset (https://github.com/starship/starship/pull/2747)
+format = '\[[$output]($style)\]'
+# If you prefer the default Starship style, use the following
+# format = "at [$output]($style)"
+shell = ["bash", "--noprofile", "--norc"]
+style = 'blue'
 
 # symbol presets
 # https://starship.rs/presets/#nerd-font-symbols

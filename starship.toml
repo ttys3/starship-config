@@ -57,6 +57,14 @@ truncation_length = 8
 truncate_to_repo = false
 truncation_symbol = "…/"
 
+[kubernetes]
+# The namespace needs to be set in the kubeconfig file
+# If the $KUBECONFIG env var is set the module will use that if
+# not it will use the ~/.kube/config
+disabled = false
+# https://starship.rs/advanced-config/#style-strings
+style = "purple bold"
+format = '[$symbol$context( \($namespace\))]($style) in '
 
 [time]
 disabled = true

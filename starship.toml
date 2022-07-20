@@ -93,6 +93,15 @@ symbol = ""
 when = "true"
 shell = ["bash", "--noprofile", "--norc"]
 
+[custom.vpn-icon]
+disabled = false
+command = "corplink-pilot status"
+style = "bold green"
+format = "[$symbol($output)]($style)"
+symbol = "VPN"
+when = "true"
+shell = ["bash", "--noprofile", "--norc"]
+
 # https://github.com/starship/starship/discussions/1252#discussioncomment-838901
 [custom.git_remote_url]
 description = 'Remote git repository'

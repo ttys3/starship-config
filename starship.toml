@@ -87,7 +87,7 @@ tag_disabled = false
 [custom.os-icon]
 disabled = false
 command = "os-icon"
-style = "bold green"
+style = "bold blue"
 format = "[$symbol($output  )]($style)"
 symbol = ""
 when = "true"

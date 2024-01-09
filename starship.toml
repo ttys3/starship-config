@@ -12,6 +12,8 @@
 # make it custom:
 # export STARSHIP_CACHE=~/.starship/cache
 
+command_timeout=200
+
 # Inserts a blank line between shell prompts
 add_newline = false
 
@@ -123,7 +125,10 @@ elif [[ -n "$GIT_REMOTE" ]]; then
 else
     GIT_REMOTE_SYMBOL=" "
 fi
-echo "$GIT_REMOTE_SYMBOL$GIT_REMOTE_URL"
+
+GIT_USERNAME_USED=$(command git config --get user.name 2> /dev/null)
+
+echo "$GIT_REMOTE_SYMBOL$GIT_USERNAME_USED@$GIT_REMOTE_URL"
 """
 # Default format is according to the segmented-brackets preset (https://github.com/starship/starship/pull/2747)
 format = '\[[$output]($style)\]'

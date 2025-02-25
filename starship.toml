@@ -97,7 +97,7 @@ shell = ["bash", "--noprofile", "--norc"]
 
 [custom.vpn-icon]
 disabled = false
-command = "corplink-pilot status"
+command = "curl -Ssf -H 'accept: text/plain' http://127.0.0.1:8084/api/vpn/status/icon"
 style = "bold green"
 format = "[$symbol($output)]($style)"
 symbol = "VPN"

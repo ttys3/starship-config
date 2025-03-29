@@ -26,6 +26,7 @@ var iconMap = map[string]string{
 	"darwin":    " ",
 	"windows":   " ",
 	"freebsd":   " ",
+	"pop":       " ",
 	// "android":   " ",
 	"linux": " ",
 
@@ -68,7 +69,10 @@ func GetOsReleaseID(osReleaseFile string) string {
 
 	if runtime.GOOS == "linux" {
 		if cfg, err := ini.Load(osReleaseFile); err == nil {
-			return strings.ToLower(cfg.Section("").Key("ID").String())
+			id := strings.ToLower(cfg.Section("").Key("ID").String())
+			if _, ok := iconMap[id]; ok {
+				return id
+			}
 		}
 		return runtime.GOOS
 	} else {

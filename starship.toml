@@ -40,8 +40,6 @@ $php\
 $python\
 $rust\
 $memory_usage\
-$aws\
-$gcloud\
 $env_var\
 $lua\
 $jobs\

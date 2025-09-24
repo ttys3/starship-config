@@ -54,24 +54,32 @@ func main() {
 		return
 	}
 
-	ID := GetOsReleaseID("/etc/os-release")
+	ID := GetOsID()
 	fmt.Print(iconMap[ID])
 }
 
-func GetOsReleaseID(osReleaseFile string) string {
-	if runtime.GOOS == "windows" ||
-		runtime.GOOS == "darwin" ||
-		runtime.GOOS == "freebsd" ||
-		runtime.GOOS == "android" {
+// GetOsID returns the operating system identifier
+// For macOS, Windows, FreeBSD, and Android, it returns the GOOS value directly
+// For Linux, it attempts to read the distribution ID from /etc/os-release
+func GetOsID() string {
+	switch runtime.GOOS {
+	case "windows", "darwin", "freebsd", "android":
 		return runtime.GOOS
-	}
-
-	if runtime.GOOS == "linux" {
-		if cfg, err := ini.Load(osReleaseFile); err == nil {
-			return strings.ToLower(cfg.Section("").Key("ID").String())
-		}
-		return runtime.GOOS
-	} else {
+	case "linux":
+		return getLinuxDistroID()
+	default:
 		return ""
 	}
+}
+
+// getLinuxDistroID reads the Linux distribution ID from /etc/os-release
+func getLinuxDistroID() string {
+	const osReleaseFile = "/etc/os-release"
+	if cfg, err := ini.Load(osReleaseFile); err == nil {
+		if id := cfg.Section("").Key("ID").String(); id != "" {
+			return strings.ToLower(id)
+		}
+	}
+	// Fallback to generic linux if /etc/os-release is not available or ID is empty
+	return "linux"
 }

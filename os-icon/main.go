@@ -4,8 +4,10 @@ package main
 // https://github.com/zcalusic/sysinfo/blob/master/os.go
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
+	"os"
 	"runtime"
 	"sort"
 	"strings"
@@ -66,10 +68,35 @@ func GetOsID() string {
 	case "windows", "darwin", "freebsd", "android":
 		return runtime.GOOS
 	case "linux":
-		return getLinuxDistroID()
+		return getLinuxDistroIDFast()
 	default:
 		return ""
 	}
+}
+
+// getLinuxDistroIDFast reads the Linux distribution ID from /etc/os-release using direct file scanning
+// This is much faster than using the INI parser since we only need one key
+func getLinuxDistroIDFast() string {
+	const osReleaseFile = "/etc/os-release"
+	file, err := os.Open(osReleaseFile)
+	if err != nil {
+		return ""
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if strings.HasPrefix(line, "ID=") {
+			// Remove the "ID=" prefix and any surrounding quotes
+			id := strings.TrimPrefix(line, "ID=")
+			id = strings.Trim(id, "\"'")
+			if id != "" {
+				return strings.ToLower(id)
+			}
+		}
+	}
+	return ""
 }
 
 // getLinuxDistroID reads the Linux distribution ID from /etc/os-release

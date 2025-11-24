@@ -2,11 +2,20 @@ package main
 
 /*
 Benchmark Results Summary:
-- Fast implementation: ~3,474 ns/op, 4,328 B/op, 8 allocs/op
-- Slow INI parser: ~9,584 ns/op, 14,720 B/op, 120 allocs/op
 
-The fast implementation provides ~2.8x speedup over the original INI parser approach
-and uses ~3.4x less memory with ~15x fewer allocations.
+Fast Implementation (getLinuxDistroIDFast):
+- 2,234,356 ops/sec (550.7 ns/op)
+- Memory: 232 B/op, 2 allocs/op
+
+Slow Implementation (getLinuxDistroID):
+- 102,259 ops/sec (11,943 ns/op)
+- Memory: 14,720 B/op, 120 allocs/op
+
+Performance improvements:
+- 21.7x faster execution speed
+- 63.4x less memory usage
+- 60x fewer memory allocations
+
 */
 
 import (

@@ -74,9 +74,34 @@ func GetOsID() string {
 	}
 }
 
+type releaseFile struct {
+	path string
+	os   string
+}
+
+var releaseFiles = []releaseFile{
+	{"/etc/fedora-release", "fedora"},
+	{"/etc/arch-release", "arch"},
+	// {"/etc/centos-release", "centos"},
+	// {"/etc/debian_version", "debian"},
+	// {"/etc/gentoo-release", "gentoo"},
+	// {"/etc/manjaro-release", "manjaro"},
+	// {"/etc/mint-release", "linuxmint"},
+	// {"/etc/opensuse-release", "opensuse"},
+	{"/etc/ubuntu-release", "ubuntu"},
+}
+
 // getLinuxDistroIDFast reads the Linux distribution ID from /etc/os-release using direct file scanning
 // This is much faster than using the INI parser since we only need one key
 func getLinuxDistroIDFast() string {
+	// Fast path: check for distribution-specific release files
+
+	for _, rf := range releaseFiles {
+		if _, err := os.Stat(rf.path); err == nil {
+			return rf.os
+		}
+	}
+
 	const osReleaseFile = "/etc/os-release"
 	file, err := os.Open(osReleaseFile)
 	if err != nil {

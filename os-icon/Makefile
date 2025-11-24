@@ -1,10 +1,8 @@
-build:
-	rm -rf bin
-	gox -ldflags "-s -w" -osarch="linux/amd64 darwin/amd64 freebsd/amd64 windows/amd64 darwin/arm64 linux/arm64" -output="bin/{{.Dir}}.{{.OS}}_{{.Arch}}"
-	ls -lhp bin
+os-icon:
+	go build -ldflags "-s -w"
 
-install:
-	go install .
+install: ./os-icon
+	sudo install -m 0755 ./os-icon /usr/local/bin/os-icon
 
 clean:
 	rm -f os-icon

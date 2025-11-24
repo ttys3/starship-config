@@ -95,11 +95,11 @@ shell = ["bash", "--noprofile", "--norc"]
 
 [custom.vpn-icon]
 disabled = false
-command = "curl -Ssf -H 'accept: text/plain' http://127.0.0.1:8084/api/vpn/status/icon"
+command = "curl --connect-timeout 0.05 --max-time 1 -Ssf -H 'accept: text/plain' http://127.0.0.1:8084/api/vpn/status/icon"
 style = "bold green"
 format = "[$symbol($output)]($style)"
 symbol = "VPN"
-when = "lsof -i :8084 >/dev/null 2>&1"
+when = "true"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.telepresence]

@@ -103,7 +103,7 @@ when = "lsof -i :8084 >/dev/null 2>&1"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.telepresence]
-disabled = false
+disabled = true
 command = """
 STATUS=$(telepresence status -j 2>/dev/null | jq -r '.user_daemon.status // empty' 2>/dev/null)
 if [[ "$STATUS" == "Connected" ]]; then

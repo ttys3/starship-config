@@ -99,7 +99,7 @@ command = "curl -Ssf -H 'accept: text/plain' http://127.0.0.1:8084/api/vpn/statu
 style = "bold green"
 format = "[$symbol($output)]($style)"
 symbol = "VPN"
-when = "ss -tln | grep -q ':8084 '"
+when = "lsof -i :8084 >/dev/null 2>&1"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.telepresence]

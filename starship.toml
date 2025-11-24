@@ -102,6 +102,22 @@ symbol = "VPN"
 when = "true"
 shell = ["bash", "--noprofile", "--norc"]
 
+[custom.telepresence]
+disabled = false
+command = """
+STATUS=$(telepresence status -j 2>/dev/null | jq -r '.user_daemon.status // empty' 2>/dev/null)
+if [[ "$STATUS" == "Connected" ]]; then
+    echo ""
+else
+    echo ""
+fi
+"""
+style = "bold cyan"
+format = "[$symbol($output)]($style)"
+symbol = "TP"
+when = """command -v telepresence >/dev/null 2>&1 && telepresence status -j 2>/dev/null | jq -r '.user_daemon.status // empty' 2>/dev/null | grep -q 'Connected'"""
+shell = ["bash", "--noprofile", "--norc"]
+
 # https://github.com/starship/starship/discussions/1252#discussioncomment-838901
 [custom.git_remote_url]
 description = 'Remote git repository'

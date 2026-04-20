@@ -17,6 +17,11 @@ import (
 
 const refreshTimeout = 5 * time.Second
 
+// anonHint is the one-shot actionable message shown in debug.log and in
+// `--status` output whenever we detect the anon (no-credentials) state.
+// Keep it short, imperative, and listing both mechanisms.
+const anonHint = "Hint: run `gh auth login` OR `export GITHUB_TOKEN=<your_token>` (GH_TOKEN also accepted)"
+
 // apiBaseURL is the GitHub REST API root. Package-level var so tests can
 // point it at an httptest.Server.
 var apiBaseURL = "https://api.github.com"
@@ -85,7 +90,7 @@ func runRefresh(ownerRepo string) error {
 	token := firstNonEmpty(os.Getenv("GITHUB_TOKEN"), os.Getenv("GH_TOKEN"))
 
 	if !hasGH && token == "" {
-		debug.Logf("no gh, no token -> source=anon")
+		debug.Logf("no gh, no token -> source=anon. %s", anonHint)
 		return writeCacheAtomic(path, &Cache{
 			URL:       url,
 			Source:    sourceAnon,

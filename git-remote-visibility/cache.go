@@ -138,7 +138,12 @@ func loadTTLConfig() ttlConfig {
 	return ttlConfig{
 		Private:       envDuration("GIT_REMOTE_VISIBILITY_TTL_PRIVATE", 5*time.Minute),
 		Public:        envDuration("GIT_REMOTE_VISIBILITY_TTL_PUBLIC", 24*time.Hour),
-		Anon:          envDuration("GIT_REMOTE_VISIBILITY_TTL_ANON", 1*time.Hour),
+		// anon means "no credentials available"; keep TTL very short so
+		// the prompt self-heals almost immediately once the user sets
+		// GITHUB_TOKEN or runs `gh auth login`. Each anon-to-anon
+		// refresh is just an exec.LookPath + env read + cache write
+		// (<1ms), detached from the prompt path — high cadence is free.
+		Anon:          envDuration("GIT_REMOTE_VISIBILITY_TTL_ANON", 10*time.Second),
 		ErrorCooldown: envDuration("GIT_REMOTE_VISIBILITY_TTL_ERROR", 15*time.Minute),
 	}
 }
